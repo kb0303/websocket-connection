@@ -1,5 +1,5 @@
 // websocket-server.js
-import { WebSocketServer } from 'ws';
+import { WebSocketServer, WebSocket } from 'ws';
 import express from 'express';
 import bodyParser from 'body-parser';
 

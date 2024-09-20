@@ -21,6 +21,10 @@ app.post('/broadcast', (req, res) => {
   }
 });
 
+app.get('/', (req, res) => {
+  res.status(200).json({ status: 'welcome to websocket connection' });
+});
+
 const port = 8080;
 const server = app.listen(port, () => {
   console.log(`HTTP server running on http://localhost:${port}`);

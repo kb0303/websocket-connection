@@ -1,8 +1,6 @@
 import { WebSocketServer, WebSocket } from 'ws';
 import express from 'express';
 import bodyParser from 'body-parser';
-import https from 'https';
-import fs from 'fs';
 
 const app = express();
 app.use(bodyParser.json());
@@ -28,20 +26,12 @@ app.get('/', (req, res) => {
 });
 
 const port = 8080;
-
-// Wrap the existing server setup in an HTTPS server
-const server = https.createServer({
-  key: fs.readFileSync('/etc/letsencrypt/live/admin.wishgeekstechserve.com/privkey.pem'),
-  cert: fs.readFileSync('/etc/letsencrypt/live/admin.wishgeekstechserve.com/fullchain.pem'),
-}, app);
-
-server.listen(port, () => {
-  console.log(`Secure server running on https://admin.wishgeekstechserve.com:${port}`);
+const server = app.listen(port, () => {
+  console.log(`HTTP server running on http://localhost:${port}`);
 });
 
-// Handle WebSocket upgrade requests
 server.on('upgrade', (request, socket, head) => {
-  if (request.url.startsWith('/ws')) {  // Ensure it matches the path `/ws`
+   if (request.url.startsWith('/ws')) {  // Ensure it matches the path `/ws/`
     wss.handleUpgrade(request, socket, head, (ws) => {
       wss.emit('connection', ws, request);
     });
